@@ -17,10 +17,11 @@ class DataSyncLaravel
 
     public function recipes(): array
     {
-        if (!empty($this->recipes)) {
+        if (! empty($this->recipes)) {
             return $this->recipes;
         }
         $discoveredRecipes = DiscoverSyncRecipes::within([app_path('SyncRecipes')]);
+
         return $this->recipes = array_merge($discoveredRecipes, config('datasync.recipes', []));
     }
 
@@ -28,7 +29,7 @@ class DataSyncLaravel
     {
         foreach ($listeners as $eventName => $eventListeners) {
             foreach ($eventListeners as $eventListener) {
-               $this->eventDispatcher->addListener($eventName, $eventListener);
+                $this->eventDispatcher->addListener($eventName, $eventListener);
             }
         }
     }

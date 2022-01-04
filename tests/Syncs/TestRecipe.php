@@ -3,9 +3,7 @@
 namespace Weble\DataSyncLaravel\Tests\Syncs;
 
 use Illuminate\Support\Facades\Storage;
-use League\Csv\Reader;
 use Weble\DataSync\Contracts\SyncRecipeInterface;
-use Weble\DataSync\Resource\CsvResource;
 use Weble\DataSync\Resource\CsvStreamResource;
 use Weble\DataSyncLaravel\Tests\Support\CodeLabelTransformer;
 use Weble\DataSyncLaravel\Tests\Support\CountProcessor;
@@ -31,15 +29,14 @@ class TestRecipe implements SyncRecipeInterface
     public function transformers(): array
     {
         return [
-            CodeLabelTransformer::class
+            CodeLabelTransformer::class,
         ];
     }
 
     public function processors(): array
     {
         return [
-            CountProcessor::class
+            CountProcessor::class,
         ];
     }
-
 }

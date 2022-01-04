@@ -10,7 +10,6 @@ use Weble\DataSync\Events\ResourceSynced;
 use Weble\DataSync\Events\ResourceSyncing;
 use Weble\DataSync\Events\SyncStarted;
 use Weble\DataSync\Events\SyncStarting;
-use Weble\DataSync\Sync;
 use Weble\DataSyncLaravel\Facades\DataSync;
 
 class SyncCommand extends Command
@@ -31,11 +30,13 @@ class SyncCommand extends Command
             if ($recipe === "All") {
                 foreach ($recipes as $recipe) {
                     \Weble\DataSync\DataSync::startSync($recipe);
+
                     return self::SUCCESS;
                 }
             }
 
             \Weble\DataSync\DataSync::startSync($recipe);
+
             return self::SUCCESS;
         } catch (\Exception $e) {
             $this->output->error($e->getMessage());
@@ -58,11 +59,11 @@ class SyncCommand extends Command
     private function listenToEvents(): void
     {
         DataSync::listen([
-            SyncStarting::NAME    => [
-                fn(SyncStarting $event) => $this->output->writeln("Starting Sync for Recipe: " . $event->sync()->name)
+            SyncStarting::NAME => [
+                fn (SyncStarting $event) => $this->output->writeln("Starting Sync for Recipe: " . $event->sync()->name),
             ],
-            SyncStarted::NAME     => [
-                fn(SyncStarted $event) => $this->output->writeln("Started Sync for Recipe: " . $event->sync()->name)
+            SyncStarted::NAME => [
+                fn (SyncStarted $event) => $this->output->writeln("Started Sync for Recipe: " . $event->sync()->name),
             ],
             ResourceSyncing::NAME => [
                 function (ResourceSyncing $event) {
@@ -71,36 +72,34 @@ class SyncCommand extends Command
                     }
 
                     $this->output->writeln("Started Syncing Resource: ");
-                }
+                },
             ],
-            ResourceSynced::NAME  => [
+            ResourceSynced::NAME => [
                 function (ResourceSynced $event) {
                     if ($event->resource() instanceof \Countable && $this->progress) {
                         $this->progress->finish();
                     }
                     $this->output->writeln("Finished Syncing Resource: ");
-                }
+                },
             ],
-            ItemProcessed::NAME   => [
+            ItemProcessed::NAME => [
                 function (ItemProcessed $event) {
-
                     if ($this->progress) {
                         $this->progress->advance();
                     }
 
                     $this->output->writeln("Finished Syncing Item: ");
-                }
+                },
             ],
-            ItemSkipped::NAME     => [
+            ItemSkipped::NAME => [
                 function (ItemSkipped $event) {
-
                     if ($this->progress) {
                         $this->progress->advance();
                     }
 
                     $this->output->writeln("Skipped Syncing Item: ");
-                }
-            ]
+                },
+            ],
         ]);
     }
 }

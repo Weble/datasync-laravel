@@ -29,17 +29,17 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
         config()->set('datasync.recipes', [
-            TestRecipe::class
+            TestRecipe::class,
         ]);
 
         config()->set('filesystems.disks.source',  [
             'driver' => 'local',
-            'root' => __DIR__ . '/disks/source'
+            'root' => __DIR__ . '/disks/source',
         ]);
 
         config()->set('filesystems.disks.target',  [
             'driver' => 'local',
-            'root' => __DIR__ . '/disks/target'
+            'root' => __DIR__ . '/disks/target',
         ]);
 
         /*

@@ -4,7 +4,6 @@ namespace Weble\DataSyncLaravel\Commands;
 
 use Illuminate\Console\Command;
 use Weble\DataSyncLaravel\Facades\DataSync;
-use Weble\DataSyncLaravel\Support\DiscoverSyncRecipes;
 
 class SyncListCommand extends Command
 {
