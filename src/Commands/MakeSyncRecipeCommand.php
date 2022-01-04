@@ -4,7 +4,7 @@ namespace Weble\DataSyncLaravel\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 
-class MakeSyncRecipeCommand  extends GeneratorCommand
+class MakeSyncRecipeCommand extends GeneratorCommand
 {
     protected $name = 'datasync:recipe';
     protected $description = 'Create a new Sync Recipe class';

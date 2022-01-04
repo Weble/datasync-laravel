@@ -14,23 +14,22 @@ class DiscoverSyncRecipes
         $namespace = app()->getNamespace();
 
         try {
-            return collect((new Finder)->in($directories)->files())
+            return collect((new Finder())->in($directories)->files())
                 ->map(function ($recipe) use ($namespace) {
-
                     $recipe = $namespace . str_replace(
-                            [
+                        [
                                 '/',
-                                '.php'
+                                '.php',
                             ],
-                            [
+                        [
                                 '\\',
-                                ''
+                                '',
                             ],
-                            Str::after($recipe->getRealPath(), realpath(app_path()) . DIRECTORY_SEPARATOR)
-                        );
+                        Str::after($recipe->getRealPath(), realpath(app_path()) . DIRECTORY_SEPARATOR)
+                    );
 
                     if (class_implements($recipe, SyncRecipeInterface::class) &&
-                        !(new \ReflectionClass($recipe))->isAbstract()) {
+                        ! (new \ReflectionClass($recipe))->isAbstract()) {
                         return $recipe;
                     }
 
