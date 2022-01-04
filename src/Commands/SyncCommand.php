@@ -30,11 +30,13 @@ class SyncCommand extends Command
             if ($recipe === "All") {
                 foreach ($recipes as $recipe) {
                     \Weble\DataSync\DataSync::startSync($recipe);
+
                     return self::SUCCESS;
                 }
             }
 
             \Weble\DataSync\DataSync::startSync($recipe);
+
             return self::SUCCESS;
         } catch (\Exception $e) {
             $this->output->error($e->getMessage());
@@ -57,42 +59,40 @@ class SyncCommand extends Command
     private function listenToEvents(): void
     {
         DataSync::listen([
-            SyncStarting::NAME    => [
-                fn(SyncStarting $event) => $this->output->writeln("Starting Sync for Recipe: " . $event->sync()->name)
+            SyncStarting::NAME => [
+                fn (SyncStarting $event) => $this->output->writeln("Starting Sync for Recipe: " . $event->sync()->name),
             ],
-            SyncStarted::NAME     => [
-                fn(SyncStarted $event) => $this->output->writeln("Started Sync for Recipe: " . $event->sync()->name)
+            SyncStarted::NAME => [
+                fn (SyncStarted $event) => $this->output->writeln("Started Sync for Recipe: " . $event->sync()->name),
             ],
             ResourceSyncing::NAME => [
                 function (ResourceSyncing $event) {
                     if ($event->resource() instanceof \Countable) {
                         $this->progress = $this->getOutput()->createProgressBar($event->resource()->count());
                     }
-                }
+                },
             ],
-            ResourceSynced::NAME  => [
+            ResourceSynced::NAME => [
                 function (ResourceSynced $event) {
                     if ($event->resource() instanceof \Countable && $this->progress) {
                         $this->progress->finish();
                     }
-                }
+                },
             ],
-            ItemProcessed::NAME   => [
+            ItemProcessed::NAME => [
                 function (ItemProcessed $event) {
-
                     if ($this->progress) {
                         $this->progress->advance();
                     }
-                }
+                },
             ],
-            ItemSkipped::NAME     => [
+            ItemSkipped::NAME => [
                 function (ItemSkipped $event) {
-
                     if ($this->progress) {
                         $this->progress->advance();
                     }
-                }
-            ]
+                },
+            ],
         ]);
     }
 }
