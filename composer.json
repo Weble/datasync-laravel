@@ -1,24 +1,24 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "weble/datasync-laravel",
+    "description": "This is my package datasync",
     "keywords": [
-        ":vendor_name",
         "laravel",
-        ":package_slug"
+        "datasync"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/weble/datasync",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Daniele Rosario",
+            "email": "daniele@weble.it",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.0",
         "spatie/laravel-package-tools": "^1.9.2",
-        "illuminate/contracts": "^8.73"
+        "illuminate/contracts": "^8.0",
+        "weble/datasync": "dev-main"
     },
     "require-dev": {
         "nunomaduro/collision": "^5.10",
@@ -30,17 +30,17 @@
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
         "phpunit/phpunit": "^9.5",
-        "spatie/laravel-ray": "^1.26"
+        "league/csv": "^9.0"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Weble\\DataSyncLaravel\\": "src",
+            "Weble\\DataSyncLaravel\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Weble\\DataSyncLaravel\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -54,13 +54,20 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Weble\\DataSyncLaravel\\DataSyncServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "DataSync": "Weble\\DataSyncLaravel\\Facades\\DataSync"
             }
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [{
+        "type": "path",
+        "url": "../DataSync",
+        "options": {
+            "symlink": true
+        }
+    }]
 }

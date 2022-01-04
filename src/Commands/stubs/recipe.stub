@@ -1,0 +1,32 @@
+<?php
+
+namespace DummyNamespace;
+
+use Generator;
+use Weble\DataSync\Contracts\ProcessorInterface;
+use Weble\DataSync\Contracts\SyncRecipeInterface;
+use Weble\DataSync\Contracts\TransformerInterface;
+
+class DummyClass implements SyncRecipeInterface
+{
+    public function name(): string
+    {
+        // TODO: Implement name() method.
+    }
+
+    public function resources(): \Generator
+    {
+        // TODO: Implement resources() method.
+    }
+
+    public function transformers(): array
+    {
+        // TODO: Implement transformers() method.
+    }
+
+    public function processors(): array
+    {
+        // TODO: Implement processors() method.
+    }
+
+}
