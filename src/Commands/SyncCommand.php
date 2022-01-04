@@ -10,7 +10,6 @@ use Weble\DataSync\Events\ResourceSynced;
 use Weble\DataSync\Events\ResourceSyncing;
 use Weble\DataSync\Events\SyncStarted;
 use Weble\DataSync\Events\SyncStarting;
-use Weble\DataSync\Sync;
 use Weble\DataSyncLaravel\Facades\DataSync;
 
 class SyncCommand extends Command
@@ -69,8 +68,6 @@ class SyncCommand extends Command
                     if ($event->resource() instanceof \Countable) {
                         $this->progress = $this->getOutput()->createProgressBar($event->resource()->count());
                     }
-
-                    $this->output->writeln("Started Syncing Resource: ");
                 }
             ],
             ResourceSynced::NAME  => [
@@ -78,7 +75,6 @@ class SyncCommand extends Command
                     if ($event->resource() instanceof \Countable && $this->progress) {
                         $this->progress->finish();
                     }
-                    $this->output->writeln("Finished Syncing Resource: ");
                 }
             ],
             ItemProcessed::NAME   => [
@@ -87,8 +83,6 @@ class SyncCommand extends Command
                     if ($this->progress) {
                         $this->progress->advance();
                     }
-
-                    $this->output->writeln("Finished Syncing Item: ");
                 }
             ],
             ItemSkipped::NAME     => [
@@ -97,8 +91,6 @@ class SyncCommand extends Command
                     if ($this->progress) {
                         $this->progress->advance();
                     }
-
-                    $this->output->writeln("Skipped Syncing Item: ");
                 }
             ]
         ]);
