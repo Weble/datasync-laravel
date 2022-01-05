@@ -16,7 +16,8 @@ class DiscoverSyncRecipes
         try {
             return collect((new Finder())->in($directories)->files())
                 ->map(function ($recipe) use ($namespace) {
-                    $recipe = $namespace . str_replace(
+                    /** @var class-string $recipeClass */
+                    $recipeClass = $namespace . str_replace(
                         [
                                 '/',
                                 '.php',
@@ -28,9 +29,9 @@ class DiscoverSyncRecipes
                         Str::after($recipe->getRealPath(), realpath(app_path()) . DIRECTORY_SEPARATOR)
                     );
 
-                    if (class_implements($recipe, SyncRecipeInterface::class) &&
-                        ! (new \ReflectionClass($recipe))->isAbstract()) {
-                        return $recipe;
+                    if (in_array(SyncRecipeInterface::class, class_implements($recipeClass) ?: []) &&
+                        ! (new \ReflectionClass($recipeClass))->isAbstract()) {
+                        return $recipeClass;
                     }
 
                     return null;

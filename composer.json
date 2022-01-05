@@ -46,7 +46,8 @@
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest coverage"
+        "test-coverage": "vendor/bin/pest coverage",
+        "static": "./vendor/bin/phpstan analyse src tests"
     },
     "config": {
         "sort-packages": true

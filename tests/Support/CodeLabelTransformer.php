@@ -8,7 +8,7 @@ use Weble\DataSync\Item;
 
 class CodeLabelTransformer implements ItemProcessorInterface
 {
-    public function process(ItemInterface $item): Item
+    public function process(ItemInterface $item): ItemInterface
     {
         if (empty($item->get('country'))) {
             return $item->skip();

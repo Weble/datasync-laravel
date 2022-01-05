@@ -10,7 +10,6 @@ use Weble\DataSync\Contracts\EngineInterface;
 use Weble\DataSync\DataSync;
 use Weble\DataSync\Engine;
 use Weble\DataSync\Pipeline\ProcessPipeline;
-use Weble\DataSync\Pipeline\TransformPipeline;
 use Weble\DataSyncLaravel\Commands\MakeSyncRecipeCommand;
 use Weble\DataSyncLaravel\Commands\SyncCommand;
 use Weble\DataSyncLaravel\Commands\SyncListCommand;
@@ -43,9 +42,7 @@ class DataSyncServiceProvider extends PackageServiceProvider
         $this->app->singleton(EventDispatcher::class, EventDispatcher::class);
         $this->app->singleton(EventDispatcherInterface::class, EventDispatcher::class);
         $this->app->singleton(\Psr\EventDispatcher\EventDispatcherInterface::class, EventDispatcher::class);
-        $this->app->bind(TransformPipeline::class);
         $this->app->bind(ProcessPipeline::class);
-
 
         $this->app->singleton(DataSyncLaravel::class, DataSyncLaravel::class);
         $this->app->singleton('datasync', DataSyncLaravel::class);
