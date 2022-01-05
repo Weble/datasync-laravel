@@ -18,8 +18,8 @@ it('dispatches sync events', function () {
         TestRecipe::class
     );
 
-    Event::assertDispatched(SyncStarting::NAME, fn(string $eventName, SyncStarting $event) => $event->sync()->name === 'Test');
-    Event::assertDispatched(SyncStarted::NAME, fn(string $eventName, SyncStarted $event) => $event->sync()->name === 'Test');
+    Event::assertDispatched(SyncStarting::NAME, fn (string $eventName, SyncStarting $event) => $event->sync()->name === 'Test');
+    Event::assertDispatched(SyncStarted::NAME, fn (string $eventName, SyncStarted $event) => $event->sync()->name === 'Test');
     Event::assertDispatched(ResourceSyncing::NAME);
     Event::assertDispatched(ResourceSynced::NAME);
     Event::assertDispatched(ItemProcessing::NAME, 246);
