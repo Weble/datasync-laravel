@@ -1,12 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
 use function Pest\Laravel\artisan;
 use Weble\DataSyncLaravel\Commands\SyncCommand;
 use Weble\DataSyncLaravel\Commands\SyncListCommand;
 use Weble\DataSyncLaravel\Tests\Support\CountProcessor;
 use Weble\DataSyncLaravel\Tests\Syncs\TestRecipe;
 
-beforeEach(fn () => CountProcessor::clear());
+beforeEach(fn () => CountProcessor::clear() && Storage::disk('target')->delete('countries.csv'));
 
 it('can list the syncs', function () {
     artisan(SyncListCommand::class)

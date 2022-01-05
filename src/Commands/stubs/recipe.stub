@@ -2,28 +2,33 @@
 
 namespace DummyNamespace;
 
+use Illuminate\Support\Str;
+use Weble\DataSync\Contracts\ItemProcessorInterface;
+use Weble\DataSync\Contracts\ResourceInterface;
 use Weble\DataSync\Contracts\SyncRecipeInterface;
+use Weble\DataSync\SyncRecipe;
 
-class DummyClass implements SyncRecipeInterface
+class DummyClass extends SyncRecipe implements SyncRecipeInterface
 {
-    public function name(): string
-    {
-        // TODO: Implement name() method.
-    }
-
+    /**
+     * A list of resources from which to read "rows",
+     * Resources could be, for example, a list of CSV files or a list of queries to run.
+     *
+     * @return \Generator<ResourceInterface>
+     */
     public function resources(): \Generator
     {
-        // TODO: Implement resources() method.
+        // yield new YourResource;
     }
 
-    public function transformers(): array
-    {
-        // TODO: Implement transformers() method.
-    }
-
+    /**
+     * A list of processors that will deal with transforming, serializing or storing the data
+     *
+     * @return ItemProcessorInterface[]|string[]
+     */
     public function processors(): array
     {
-        // TODO: Implement processors() method.
+        return [];
     }
 
 }
