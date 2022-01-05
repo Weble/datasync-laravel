@@ -38,14 +38,14 @@ class TestRecipe extends SyncRecipe implements SyncRecipeInterface
     {
         return [
             CodeLabelTransformer::class,
-            CountProcessor::class
+            CountProcessor::class,
         ];
     }
 
     public function ingredients(): array
     {
         return [
-            DownloadFilesIngredient::class
+            DownloadFilesIngredient::class,
         ];
     }
 }

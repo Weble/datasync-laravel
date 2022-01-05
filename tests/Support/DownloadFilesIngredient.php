@@ -13,6 +13,6 @@ class DownloadFilesIngredient implements IngredientInterface
         $source = Storage::disk('source');
         $target = Storage::disk('target');
 
-        collect($source->files())->each(fn($file) => $target->put($file, $source->readStream($file)));
+        collect($source->files())->each(fn ($file) => $target->put($file, $source->readStream($file)));
     }
 }
