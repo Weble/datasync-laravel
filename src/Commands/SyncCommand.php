@@ -4,17 +4,21 @@ namespace Weble\DataSyncLaravel\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Weble\DataSync\Contracts\ProgressibleInterface;
 use Weble\DataSync\Events\ItemProcessed;
 use Weble\DataSync\Events\ItemSkipped;
 use Weble\DataSync\Events\ResourceSynced;
 use Weble\DataSync\Events\ResourceSyncing;
 use Weble\DataSync\Events\SyncStarted;
 use Weble\DataSync\Events\SyncStarting;
+use Weble\DataSyncLaravel\DataSyncLaravel;
 use Weble\DataSyncLaravel\Facades\DataSync;
 
 class SyncCommand extends Command
 {
-    public $signature = 'datasync:sync';
+    private const OPTION_ALL = "All";
+
+    public $signature = 'datasync:sync {recipe?}';
 
     public $description = 'Execute a Sync';
 
@@ -26,13 +30,22 @@ class SyncCommand extends Command
             $this->listenToEvents();
 
             $recipes = DataSync::recipes();
-            $recipe = $this->chooseRecipe($recipes);
-            if ($recipe === "All") {
+
+            $recipe = $this->argument('recipe');
+            if (!$recipe) {
+                $recipe = $this->chooseRecipe($recipes);
+            }
+
+            if ($recipe === self::OPTION_ALL) {
                 foreach ($recipes as $recipe) {
                     \Weble\DataSync\DataSync::startSync($recipe);
 
                     return self::SUCCESS;
                 }
+            }
+
+            if (!in_array($recipe, $recipes)) {
+                $recipe = $this->guessRecipeClassFromName($recipe, $recipes);
             }
 
             \Weble\DataSync\DataSync::startSync($recipe);
@@ -51,7 +64,7 @@ class SyncCommand extends Command
             throw new \Exception("There are no recipes available");
         }
 
-        array_unshift($recipes, "All");
+        array_unshift($recipes, self::OPTION_ALL);
 
         return $this->choice("Which Recipe would you like to run?", $recipes);
     }
@@ -69,6 +82,13 @@ class SyncCommand extends Command
                 function (ResourceSyncing $event) {
                     if ($event->resource() instanceof \Countable) {
                         $this->progress = $this->getOutput()->createProgressBar($event->resource()->count());
+                    }
+
+                    if ($event->resource() instanceof ProgressibleInterface && $event->resource()->progressTotal()) {
+                        $this->progress = $this->getOutput()->createProgressBar($event->resource()->progressTotal());
+                        $event->resource()->progressCallback(function($progress) {
+                            $this->progress->advance($progress);
+                        });
                     }
                 },
             ],
@@ -94,5 +114,17 @@ class SyncCommand extends Command
                 },
             ],
         ]);
+    }
+
+    private function guessRecipeClassFromName(mixed $recipe, array $recipes): string
+    {
+        $simpleClass = substr($recipe, strrpos("\\", $recipe));
+        $fullClass = app()->getNamespace() . DataSyncLaravel::DEFAULT_FOLDER . '\\' . $simpleClass;
+
+        if (!in_array($fullClass, $recipes)) {
+            throw new \Exception("Sync Recipe {$recipe} not found");
+        }
+
+        return $fullClass;
     }
 }

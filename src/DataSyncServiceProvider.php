@@ -2,6 +2,7 @@
 
 namespace Weble\DataSyncLaravel;
 
+use Illuminate\Support\Facades\Event;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -46,10 +47,21 @@ class DataSyncServiceProvider extends PackageServiceProvider
 
         $this->app->singleton(DataSyncLaravel::class, DataSyncLaravel::class);
         $this->app->singleton('datasync', DataSyncLaravel::class);
+
+        $this->proxyEvents();
     }
 
     public function bootingPackage(): void
     {
         DataSync::useContainer($this->app);
+    }
+
+    private function proxyEvents(): void
+    {
+        /** @var EventDispatcher $coreDispatcher */
+        $coreDispatcher = $this->app->get(EventDispatcherInterface::class);
+        foreach (DataSync::events() as $eventName) {
+            $coreDispatcher->addListener($eventName, fn($event) => Event::dispatch($eventName, $event));
+        }
     }
 }
