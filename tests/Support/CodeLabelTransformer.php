@@ -3,12 +3,12 @@
 namespace Weble\DataSyncLaravel\Tests\Support;
 
 use Weble\DataSync\Contracts\ItemInterface;
-use Weble\DataSync\Contracts\TransformerInterface;
+use Weble\DataSync\Contracts\ItemProcessorInterface;
 use Weble\DataSync\Item;
 
-class CodeLabelTransformer implements TransformerInterface
+class CodeLabelTransformer implements ItemProcessorInterface
 {
-    public function transform(ItemInterface $item): Item
+    public function process(ItemInterface $item): Item
     {
         if (empty($item->get('country'))) {
             return $item->skip();

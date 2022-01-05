@@ -26,16 +26,10 @@ class TestRecipe implements SyncRecipeInterface
         }
     }
 
-    public function transformers(): array
-    {
-        return [
-            CodeLabelTransformer::class,
-        ];
-    }
-
     public function processors(): array
     {
         return [
+            CodeLabelTransformer::class,
             CountProcessor::class,
         ];
     }

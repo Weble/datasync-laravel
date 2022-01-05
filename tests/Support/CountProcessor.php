@@ -3,11 +3,16 @@
 namespace Weble\DataSyncLaravel\Tests\Support;
 
 use Weble\DataSync\Contracts\ItemInterface;
-use Weble\DataSync\Contracts\ProcessorInterface;
+use Weble\DataSync\Contracts\ItemProcessorInterface;
 
-class CountProcessor implements ProcessorInterface
+class CountProcessor implements ItemProcessorInterface
 {
     private static int $count = 0;
+
+    public static function clear(): void
+    {
+        self::$count = 0;
+    }
 
     public function process(ItemInterface $item): ItemInterface
     {

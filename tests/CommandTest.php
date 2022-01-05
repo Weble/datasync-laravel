@@ -1,9 +1,12 @@
 <?php
 
+use Weble\DataSyncLaravel\Tests\Support\CountProcessor;
 use function Pest\Laravel\artisan;
 use Weble\DataSyncLaravel\Commands\SyncCommand;
 use Weble\DataSyncLaravel\Commands\SyncListCommand;
 use Weble\DataSyncLaravel\Tests\Syncs\TestRecipe;
+
+beforeEach(fn() => CountProcessor::clear());
 
 it('can list the syncs', function () {
     artisan(SyncListCommand::class)
@@ -25,5 +28,5 @@ it('can execute a sync', function () {
             TestRecipe::class,
         ])->expectsOutput("Starting Sync for Recipe: Test");
 
-    expect(\Weble\DataSyncLaravel\Tests\Support\CountProcessor::count())->toBe(245);
+    expect(CountProcessor::count())->toBe(245);
 });
