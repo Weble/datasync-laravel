@@ -32,7 +32,7 @@ class SyncCommand extends Command
             $recipes = DataSync::recipes();
 
             $recipe = $this->argument('recipe');
-            if (!$recipe) {
+            if (! $recipe) {
                 $recipe = $this->chooseRecipe($recipes);
             }
 
@@ -44,7 +44,7 @@ class SyncCommand extends Command
                 }
             }
 
-            if (!in_array($recipe, $recipes)) {
+            if (! in_array($recipe, $recipes)) {
                 $recipe = $this->guessRecipeClassFromName($recipe, $recipes);
             }
 
@@ -86,7 +86,7 @@ class SyncCommand extends Command
 
                     if ($event->resource() instanceof ProgressibleInterface && $event->resource()->progressTotal()) {
                         $this->progress = $this->getOutput()->createProgressBar($event->resource()->progressTotal());
-                        $event->resource()->progressCallback(function($progress) {
+                        $event->resource()->progressCallback(function ($progress) {
                             $this->progress->advance($progress);
                         });
                     }
@@ -121,7 +121,7 @@ class SyncCommand extends Command
         $simpleClass = substr($recipe, strrpos("\\", $recipe));
         $fullClass = app()->getNamespace() . str_replace("/", "\\", DataSyncLaravel::DEFAULT_FOLDER) . '\\' . $simpleClass;
 
-        if (!in_array($fullClass, $recipes)) {
+        if (! in_array($fullClass, $recipes)) {
             throw new \Exception("Sync Recipe {$recipe} not found");
         }
 

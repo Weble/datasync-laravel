@@ -61,7 +61,7 @@ class DataSyncServiceProvider extends PackageServiceProvider
         /** @var EventDispatcher $coreDispatcher */
         $coreDispatcher = $this->app->get(EventDispatcherInterface::class);
         foreach (DataSync::events() as $eventName) {
-            $coreDispatcher->addListener($eventName, fn($event) => Event::dispatch($eventName, $event));
+            $coreDispatcher->addListener($eventName, fn ($event) => Event::dispatch($eventName, $event));
         }
     }
 }

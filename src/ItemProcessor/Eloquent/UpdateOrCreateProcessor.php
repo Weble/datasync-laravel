@@ -21,9 +21,7 @@ class UpdateOrCreateProcessor implements ItemProcessorInterface
         string       $model,
         string|array $attributes,
         array        $values = []
-    )
-    {
-
+    ) {
         $this->model = $model;
         $this->attributes = $attributes;
         $this->values = $values;
@@ -46,5 +44,4 @@ class UpdateOrCreateProcessor implements ItemProcessorInterface
 
         return $item;
     }
-
 }
