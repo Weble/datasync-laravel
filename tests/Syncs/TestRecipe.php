@@ -4,7 +4,7 @@ namespace Weble\DataSyncLaravel\Tests\Syncs;
 
 use Illuminate\Support\Facades\Storage;
 use Weble\DataSync\Contracts\SyncRecipeInterface;
-use Weble\DataSync\Resource\CsvStreamResource;
+use Weble\DataSync\Resource\Csv\CsvStreamResource;
 use Weble\DataSyncLaravel\Tests\Support\CodeLabelTransformer;
 use Weble\DataSyncLaravel\Tests\Support\CountProcessor;
 

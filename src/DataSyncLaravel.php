@@ -7,7 +7,7 @@ use Weble\DataSyncLaravel\Support\DiscoverSyncRecipes;
 
 class DataSyncLaravel
 {
-    public const DEFAULT_FOLDER = 'SyncRecipes';
+    public const DEFAULT_FOLDER = 'DataSync/Recipes';
 
     private array $recipes = [];
     private EventDispatcher $eventDispatcher;
@@ -22,6 +22,7 @@ class DataSyncLaravel
         if (! empty($this->recipes)) {
             return $this->recipes;
         }
+
         $discoveredRecipes = DiscoverSyncRecipes::within([app_path(self::DEFAULT_FOLDER)]);
 
         return $this->recipes = array_merge($discoveredRecipes, config('datasync.recipes', []));

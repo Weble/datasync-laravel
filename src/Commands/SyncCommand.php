@@ -119,7 +119,7 @@ class SyncCommand extends Command
     private function guessRecipeClassFromName(mixed $recipe, array $recipes): string
     {
         $simpleClass = substr($recipe, strrpos("\\", $recipe));
-        $fullClass = app()->getNamespace() . DataSyncLaravel::DEFAULT_FOLDER . '\\' . $simpleClass;
+        $fullClass = app()->getNamespace() . str_replace("/", "\\", DataSyncLaravel::DEFAULT_FOLDER) . '\\' . $simpleClass;
 
         if (!in_array($fullClass, $recipes)) {
             throw new \Exception("Sync Recipe {$recipe} not found");

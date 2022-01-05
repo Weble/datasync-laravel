@@ -4,11 +4,11 @@ namespace Weble\DataSyncLaravel\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 
-class MakeSyncRecipeCommand extends GeneratorCommand
+class MakeItemProcessorCommand extends GeneratorCommand
 {
-    protected $name = 'datasync:recipe';
-    protected $description = 'Create a new Sync Recipe class';
-    protected $type = 'SyncRecipe';
+    protected $name = 'datasync:processor';
+    protected $description = 'Create a new Item Processor class';
+    protected $type = 'ItemProcessor';
 
     protected function getStub(): string
     {
@@ -17,6 +17,6 @@ class MakeSyncRecipeCommand extends GeneratorCommand
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\DataSync\Recipes';
+        return $rootNamespace . '\DataSync\ItemProcessors';
     }
 }

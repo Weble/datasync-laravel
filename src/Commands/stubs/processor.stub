@@ -1,0 +1,15 @@
+<?php
+
+namespace DummyNamespace;
+
+use Weble\DataSync\Contracts\ItemInterface;
+use Weble\DataSync\Contracts\ItemProcessorInterface;
+
+class DummyClass implements ItemProcessorInterface
+{
+    public function process(ItemInterface $item): ItemInterface
+    {
+        // TODO: Implement process() method.
+    }
+
+}

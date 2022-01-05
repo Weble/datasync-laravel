@@ -2,10 +2,7 @@
 
 namespace DummyNamespace;
 
-use Generator;
-use Weble\DataSync\Contracts\ProcessorInterface;
 use Weble\DataSync\Contracts\SyncRecipeInterface;
-use Weble\DataSync\Contracts\TransformerInterface;
 
 class DummyClass implements SyncRecipeInterface
 {

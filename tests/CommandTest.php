@@ -10,7 +10,7 @@ beforeEach(fn () => CountProcessor::clear());
 
 it('can list the syncs', function () {
     artisan(SyncListCommand::class)
-        ->expectsTable(["Class"], [[TestRecipe::class]]);
+        ->expectsTable(["Name", "Class"], [["Test", TestRecipe::class]]);
 });
 
 it('asks for which sync to run', function () {

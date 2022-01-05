@@ -15,7 +15,7 @@ class SyncListCommand extends Command
     {
         $recipes = DataSync::recipes();
 
-        $this->table(['Class'], [$recipes]);
+        $this->table(['Name', 'Class'], array_map(fn($r) => [app($r)->name(), $r], $recipes));
 
         return self::SUCCESS;
     }
